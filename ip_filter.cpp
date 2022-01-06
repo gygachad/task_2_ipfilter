@@ -54,6 +54,66 @@ bool comp(vector<string> a, vector<string> b)
     }
 }
 
+void print_ip_pool(vector<vector<string>> ip_pool)
+{
+    for (vector<vector<string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    {
+        for (vector<string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+        {
+            if (ip_part != ip->cbegin())
+            {
+                cout << ".";
+
+            }
+            cout << *ip_part;
+        }
+        cout << endl;
+    }
+}
+
+vector<vector<string>>* filter(vector<vector<string>> ip_pool, string first)
+{
+    vector<vector<string>>* filtered = new vector<vector<string>>();
+
+    for each (vector<string> ip in ip_pool)
+    {
+        if (ip[0] == first)
+            filtered->push_back(ip);
+    }
+
+    return filtered;
+}
+
+vector<vector<string>>* filter(vector<vector<string>> ip_pool, string first, string second)
+{
+    vector<vector<string>>* filtered = new vector<vector<string>>();
+
+    for each (vector<string> ip in ip_pool)
+    {
+        if (ip[0] == first && ip[1] == second)
+            filtered->push_back(ip);
+    }
+
+    return filtered;
+}
+
+vector<vector<string>>* filter_any(vector<vector<string>> ip_pool, string val)
+{
+    vector<vector<string>>* filtered = new vector<vector<string>>();
+
+    for each (vector<string> ip in ip_pool)
+    {
+        if (ip[0] == val || 
+            ip[1] == val || 
+            ip[2] == val || 
+            ip[3] == val
+            )
+            filtered->push_back(ip);
+    }
+
+    return filtered;
+}
+
 int ip_filter_main(int argc, char const *argv[])
 {
     try
@@ -71,20 +131,10 @@ int ip_filter_main(int argc, char const *argv[])
         // TODO reverse lexicographically sort
         sort(ip_pool.begin(), ip_pool.end(), comp);
 
-        for(vector<vector<string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(vector<string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    cout << ".";
+        cout << "reverse lexicographically sort" << endl;
+        print_ip_pool(ip_pool);
+        cout << endl;
 
-                }
-                cout << *ip_part;
-            }
-            cout << endl;
-        }
-        
         // 222.173.235.246
         // 222.130.177.64
         // 222.82.198.61
@@ -94,7 +144,15 @@ int ip_filter_main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first byte and output
-        // ip = filter(1)
+        //ip = filter(1);
+
+        vector<vector<string>>* filtered_by_first= filter(ip_pool, "1");
+
+        cout << "filtered by first 1" << endl;
+        print_ip_pool(*filtered_by_first);
+        cout << endl;
+
+        delete filtered_by_first;
 
         // 1.231.69.33
         // 1.87.203.225
@@ -104,6 +162,13 @@ int ip_filter_main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
+        vector<vector<string>>* filtered_by_first_and_second = filter(ip_pool, "46", "70");
+
+        cout << "filtered by first 46 and second 70" << endl;
+        print_ip_pool(*filtered_by_first_and_second);
+        cout << endl;
+
+        delete filtered_by_first_and_second;
 
         // 46.70.225.39
         // 46.70.147.26
@@ -112,6 +177,13 @@ int ip_filter_main(int argc, char const *argv[])
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
+        vector<vector<string>>* filtered_by_any = filter_any(ip_pool, "46");
+
+        cout << "filtered by any 46" << endl;
+        print_ip_pool(*filtered_by_any);
+        cout << endl;
+
+        delete filtered_by_any;
 
         // 186.204.34.46
         // 186.46.222.194
