@@ -37,9 +37,9 @@ TEST_F(TestSerialization, DateJson)
 
     vector<string> not_filtered = ip_pool::split(string(NOT_FILTERED), '\n');
 
-    for each (string line in not_filtered)
+    for(auto line = not_filtered.begin(); line != not_filtered.end(); line++)
     {
-        vector<string> v = ip_pool::split(line, '\t');
+        vector<string> v = ip_pool::split(*line, '\t');
 
         ip_addr ip = ip_addr();
 
