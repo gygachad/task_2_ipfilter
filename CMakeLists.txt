@@ -8,10 +8,19 @@ project(ip_filter VERSION ${PROJECT_VESRION})
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 option(WITH_GOOGLE_TEST "Include google test" ON)
 
+file(READ ip_filter_filtered.tsv FILTERED_CHECK)
+
+configure_file(gtest_ipfilter.h.in gtest_ipfilter.h)
 configure_file(version.h.in version.h)
 
+file(COPY ${CMAKE_BINARY_DIR}/version.h
+        DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+
+file(COPY ${CMAKE_BINARY_DIR}/gtest_ipfilter.h
+        DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_executable(ip_filter main.cpp)
-add_library(ip_filter_lib ip_filter.cpp version.cpp)
+add_library(ip_filter_lib ip_addr.cpp ip_pool.cpp version.cpp)
 
 set_target_properties(ip_filter PROPERTIES
     CXX_STANDARD 14
@@ -89,6 +98,12 @@ if (MSVC)
         )
     endif()
     if(WITH_GOOGLE_TEST)
+        target_compile_options(ip_filter_lib PRIVATE
+            /MT
+        )
+        target_compile_options(ip_filter PRIVATE
+            /MT
+        )
         target_compile_options(gtest_ipfilter PRIVATE
             /MT
         )

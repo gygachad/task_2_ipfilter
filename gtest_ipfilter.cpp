@@ -1,6 +1,12 @@
+#include <string>
+
 #include <gtest/gtest.h>
 
 #include "version.h"
+#include "gtest_ipfilter.h"
+#include "ip_pool.h"
+
+using namespace std;
 
 class TestSerialization : public ::testing::Test {
 public:

@@ -1,0 +1,3 @@
+#pragma once
+                                        
+#cmakedefine FILTERED_CHECK @FILTERED_CHECK@
