@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "gtest_ipfilter.h"
 #include "ip_pool.h"
 #include "ip_addr.h"
 
@@ -30,7 +31,6 @@ int main(int argc, char const *argv[]) {
         // 1.29.168.152
         // 1.1.234.8
         filter.reverse_sort();
-        cout << filter.to_string();
 
         // 1.231.69.33
         // 1.87.203.225
@@ -39,7 +39,6 @@ int main(int argc, char const *argv[]) {
         // 1.1.234.8
         ip_pool filtered_by_first;
         filtered_by_first.push_back(filter.filter("1.*.*.*"));
-        cout << filtered_by_first.to_string();
 
         // 46.70.225.39
         // 46.70.147.26
@@ -47,7 +46,6 @@ int main(int argc, char const *argv[]) {
         // 46.70.29.76
         ip_pool filtered_by_first_and_second;
         filtered_by_first_and_second.push_back(filter.filter("46.70.*.*"));
-        cout << filtered_by_first_and_second.to_string();
 
         // 186.204.34.46
         // 186.46.222.194
@@ -85,6 +83,10 @@ int main(int argc, char const *argv[]) {
         // 5.189.203.46
         ip_pool filtered_by_any;
         filtered_by_any.push_back(filter.filter_any("46"));
+
+        cout << filter.to_string();
+        cout << filtered_by_first.to_string();
+        cout << filtered_by_first_and_second.to_string();
         cout << filtered_by_any.to_string();
     }
     catch (const exception& e)

@@ -3,6 +3,8 @@
 
 bool ip_addr::parse(string str_addr)
 {
+    this->str_octets.clear();
+
     vector<string> splitted_ip = ip_pool::split(str_addr, '.');
 
     if (splitted_ip.size() != 4)

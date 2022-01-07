@@ -87,49 +87,9 @@ string ip_pool::to_string()
 
     for each (ip_addr ip in ip_addr_pool)
     {
-        out += "\"";
         out += ip.str_addr;
-        out += "\"";
-        out += "\\";
         out += "\n";
     }
 
     return out;
-}
-
-string print_ip_pool(vector<vector<string>>* ip_pool)
-{
-    string out = "";
-
-    for (vector<vector<string>>::const_iterator ip = ip_pool->cbegin(); ip != ip_pool->cend(); ++ip)
-    {
-        for (vector<string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-        {
-            if (ip_part != ip->cbegin())
-            {
-                out += ".";
-            }
-            out += *ip_part;
-        }
-        out += "\n";
-    }
-
-    return out;
-}
-
-vector<vector<string>>* read_ip_pool()
-{
-    vector<vector<string>>* ip_pool = new vector<vector<string>>();
-
-    for(string line; getline(std::cin, line);)
-    {
-        vector<string> v = ip_pool::split(line, '\t');
-        vector<string> splitted_ip = ip_pool::split(v.at(0), '.');
-
-        ip_addr ip = ip_addr();
-
-        ip_pool->push_back(splitted_ip);
-    }
-
-    return ip_pool;
 }

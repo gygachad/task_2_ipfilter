@@ -5,10 +5,10 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(ip_filter VERSION ${PROJECT_VESRION})
 
-option(WITH_BOOST_TEST "Whether to build Boost test" ON)
-option(WITH_GOOGLE_TEST "Include google test" ON)
+option(WITH_GOOGLE_TEST "Google test" ON)
 
-file(READ ip_filter_filtered.tsv FILTERED_CHECK)
+file(READ not_filtered.tsv NOT_FILTERED)
+file(READ filtered.tsv FILTERED)
 
 configure_file(gtest_ipfilter.h.in gtest_ipfilter.h)
 configure_file(version.h.in version.h)
@@ -34,26 +34,6 @@ target_include_directories(ip_filter
 target_link_libraries(ip_filter PRIVATE
     ip_filter_lib
 )
-
-if(WITH_BOOST_TEST)
-    find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-    add_executable(btest_ipfilter btest_ipfilter.cpp)
-
-    set_target_properties(btest_ipfilter PROPERTIES
-        CXX_STANDARD 14
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    set_target_properties(btest_ipfilter PROPERTIES
-        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
-    )
-
-    target_link_libraries(btest_ipfilter
-        ${Boost_LIBRARIES}
-        ip_filter_lib
-    )
-endif()
 
 if(WITH_GOOGLE_TEST)
 
@@ -92,11 +72,6 @@ if (MSVC)
     target_compile_options(ip_filter PRIVATE
         /W4
     )
-    if(WITH_BOOST_TEST)
-        target_compile_options(btest_ipfilter PRIVATE
-            /W4
-        )
-    endif()
     if(WITH_GOOGLE_TEST)
         target_compile_options(ip_filter_lib PRIVATE
             /MT
@@ -112,11 +87,6 @@ else ()
     target_compile_options(ip_filter PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    if(WITH_BOOST_TEST)
-        target_compile_options(btest_ipfilter PRIVATE
-            -Wall -Wextra -pedantic -Werror
-        )
-    endif()
 endif()
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
@@ -132,11 +102,6 @@ set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_PACKAGE_CONTACT example@example.com)
 include(CPack)
-
-if(WITH_BOOST_TEST)
-    enable_testing()
-    add_test(btest_ipfilter btest_ipfilter)
-endif()
 
 if(WITH_GOOGLE_TEST)
     enable_testing()
