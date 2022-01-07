@@ -6,7 +6,7 @@
 
 #include "version.h"
 
-int main(int argc, char const *argv[]) {
+int main() {
 
 	//std::cout << "ip_filter version: " << version() << std::endl;
     try

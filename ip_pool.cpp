@@ -9,7 +9,7 @@ void ip_pool::push_back(ip_addr ip)
 
 void ip_pool::push_back(vector<ip_addr> ip_pool)
 {
-    for (auto ip = this->ip_addr_pool.begin(); ip != this->ip_addr_pool.end(); ip++)
+    for (auto ip = ip_pool.begin(); ip != ip_pool.end(); ip++)
         this->push_back(*ip);
 }
 
