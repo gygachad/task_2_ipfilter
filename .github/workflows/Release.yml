@@ -30,6 +30,7 @@ jobs:
         submodules: true
   
     - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DGTEST_ROOT="C:/Program Files (x86)/googletest-distribution/"
+    - run: cmake --build . --config Release
     - run: cmake --build . --config Release --target RUN_TESTS
     - run: cmake --build . --config Release --target package
 
@@ -65,6 +66,7 @@ jobs:
         
     - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y && sudo apt-get install libgtest-dev -y
     - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+    - run: cmake --build . --config Release
     - run: cmake --build . --config Release --target test
     - run: cmake --build . --config Release --target package
 
