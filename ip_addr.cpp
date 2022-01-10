@@ -41,6 +41,14 @@ bool ip_addr::parse(string str_addr)
     return true;
 }
 
+bool operator == (const ip_addr& a, const ip_addr& b)
+{
+    return  a.octet0 == b.octet0 &&
+            a.octet1 == b.octet1 &&
+            a.octet2 == b.octet2 &&
+            a.octet3 == b.octet3;
+}
+
 bool operator < (const ip_addr& a, const ip_addr& b)
 {
     if (a.octet0 == b.octet0)

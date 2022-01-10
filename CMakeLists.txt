@@ -37,12 +37,6 @@ target_link_libraries(ip_filter PRIVATE
 
 if(WITH_GOOGLE_TEST)
 
-    if (WIN32)
-        set(GTEST_INCLUDE_DIR "C:/Program Files (x86)/googletest-distribution/include")
-        set(GTEST_LIBRARY "C:/Program Files (x86)/googletest-distribution/lib/gtest.lib")
-        set(GTEST_MAIN_LIBRARY "C:/Program Files (x86)/googletest-distribution/lib/gtest_main.lib")
-    endif()
-    
     find_package(GTest REQUIRED)
     add_executable(gtest_ipfilter gtest_ipfilter.cpp)
 
@@ -62,7 +56,7 @@ if(WITH_GOOGLE_TEST)
     if(UNIX)
         find_package(Threads REQUIRED)
         target_link_libraries(gtest_ipfilter
-            pthread
+            ${CMAKE_THREAD_LIBS_INIT}
         )
     endif()
 

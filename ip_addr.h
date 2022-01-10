@@ -14,10 +14,13 @@ public:
 	bool parse(string str_addr);
 	bool match(const string& mask);
 
+	friend bool operator== (const ip_addr& a, const ip_addr& b);
+	friend bool operator!= (const ip_addr& a, const ip_addr& b) { return !(b == a); };
+
 	friend bool operator< (const ip_addr& a, const ip_addr& b);
-	friend inline bool operator> (const ip_addr& a, const ip_addr& b) { return b < a; }
-	friend inline bool operator<=(const ip_addr& a, const ip_addr& b) { return !(a > b); }
-	friend inline bool operator>=(const ip_addr& a, const ip_addr& b) { return !(a < b); }
+	friend bool operator> (const ip_addr& a, const ip_addr& b) { return b < a; }
+	friend bool operator<=(const ip_addr& a, const ip_addr& b) { return !(a > b); }
+	friend bool operator>=(const ip_addr& a, const ip_addr& b) { return !(a < b); }
 
 	unsigned char octet0;
 	unsigned char octet1;

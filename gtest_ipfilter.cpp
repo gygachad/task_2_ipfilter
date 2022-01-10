@@ -33,7 +33,25 @@ TEST_F(TestSerialization, DateJson)
     addr.parse("2.2.3.4");
     EXPECT_FALSE(addr.match(test_mask));
 
-    ip_pool filter = ip_pool();
+    ip_addr a;
+    ip_addr b;
+
+    a.parse("2.2.3.4");
+    b.parse("1.2.3.4");
+    EXPECT_GT(a, b);
+    EXPECT_NE(a, b);
+
+    a.parse("10.2.3.4");
+    b.parse("100.2.3.4");
+    EXPECT_LT(a, b);
+    EXPECT_NE(a, b);
+
+    a.parse("10.2.3.4");
+    b.parse("10.2.3.4");
+    EXPECT_LE(a, b);
+    EXPECT_EQ(a, b);
+
+    ip_pool pool = ip_pool();
 
     vector<string> not_filtered = ip_pool::split(string(NOT_FILTERED), '\n');
 
@@ -44,23 +62,23 @@ TEST_F(TestSerialization, DateJson)
         ip_addr ip = ip_addr();
 
         if (ip.parse(v.at(0)))
-            filter.push_back(ip);
+            pool.push_back(ip);
     }
 
-    filter.reverse_sort();
+    pool.reverse_sort();
 
     ip_pool filtered_by_first;
-    filtered_by_first.push_back(filter.filter("1.*.*.*"));
+    filtered_by_first.push_back(pool.filter("1.*.*.*"));
 
     ip_pool filtered_by_first_and_second;
-    filtered_by_first_and_second.push_back(filter.filter("46.70.*.*"));
+    filtered_by_first_and_second.push_back(pool.filter("46.70.*.*"));
 
     ip_pool filtered_by_any;
-    filtered_by_any.push_back(filter.filter_any("46"));
+    filtered_by_any.push_back(pool.filter_any("46"));
 
     string filtered = "";
 
-    filtered += filter.to_string();
+    filtered += pool.to_string();
     filtered += filtered_by_first.to_string();
     filtered += filtered_by_first_and_second.to_string();
     filtered += filtered_by_any.to_string();

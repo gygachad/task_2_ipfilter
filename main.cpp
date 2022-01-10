@@ -6,8 +6,8 @@
 
 #include "version.h"
 
-int main() {
-
+int main() 
+{
 	//std::cout << "ip_filter version: " << version() << std::endl;
     try
     {
