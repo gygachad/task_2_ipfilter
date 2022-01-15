@@ -9,8 +9,6 @@ class ip_addr
 {
 public:
 	ip_addr() {};
-	ip_addr::ip_addr(const string& str_addr);
-
 	~ip_addr() {};
 
 	bool parse(string str_addr);
