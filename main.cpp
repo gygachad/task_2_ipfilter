@@ -11,6 +11,12 @@ int main()
 	//std::cout << "ip_filter version: " << version() << std::endl;
     try
     {
+        ip_addr a = ip_addr();
+        a.parse("1dwd.231.");
+        a.parse("123.412.213.231");
+        a.parse("123.255.12.12");
+
+
         ip_pool filter = ip_pool();
 
         for (string line; getline(std::cin, line);)

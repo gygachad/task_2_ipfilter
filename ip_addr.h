@@ -9,6 +9,8 @@ class ip_addr
 {
 public:
 	ip_addr() {};
+	ip_addr::ip_addr(const string& str_addr);
+
 	~ip_addr() {};
 
 	bool parse(string str_addr);
@@ -22,12 +24,10 @@ public:
 	friend bool operator<=(const ip_addr& a, const ip_addr& b) { return !(a > b); }
 	friend bool operator>=(const ip_addr& a, const ip_addr& b) { return !(a < b); }
 
-	unsigned char octet0;
-	unsigned char octet1;
-	unsigned char octet2;
-	unsigned char octet3;
-
+	//ip splitted by octets
+	unsigned char octets[4];
 	vector<string> str_octets;
 
+	//full string with ip
 	string str_addr;
 };

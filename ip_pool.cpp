@@ -38,13 +38,6 @@ vector<std::string> ip_pool::split(const string& str, char d)
     return r;
 }
 
-/*
-bool ip_pool::comp(ip_addr a, ip_addr b)
-{        
-    return a > b;
-}
-*/
-
 void ip_pool::reverse_sort()
 {
     sort(this->ip_addr_pool.begin(), this->ip_addr_pool.end(), [](ip_addr a, ip_addr b) {return a > b; });

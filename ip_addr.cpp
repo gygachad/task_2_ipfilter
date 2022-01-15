@@ -1,79 +1,83 @@
+#include <regex>
+
 #include "ip_addr.h"
 #include "ip_pool.h"
 
 bool ip_addr::parse(string str_addr)
 {
+    bool parsed = true;
+
     this->str_octets.clear();
+    this->str_addr = "";
+
+    //Minimal check
+    regex ip_re("(\\d{1,3}\\.){3}\\d{1,3}");
+    if (!regex_match(str_addr, ip_re))
+        return false;
 
     vector<string> splitted_ip = ip_pool::split(str_addr, '.');
 
-    if (splitted_ip.size() != 4)
-        return false;
+    for (size_t i = 0; i < splitted_ip.size(); i++)
+    {
+        unsigned long octect = stoul(splitted_ip[i]);
+        if (0 <= octect && octect <= 255)
+        {
+            this->octets[i] = (unsigned char)octect;
+        }
+        else
+        {
+            parsed = false;
+            break;
+        }
 
-    unsigned long octect = 0;
+        string str_octet = to_string(this->octets[i]);
 
-    octect = stoul(splitted_ip[0]);
-    if (!(0 <= octect && octect <= 255))
-        return false;
-    this->octet0 = (unsigned char)octect;
-    this->str_octets.push_back(splitted_ip[0]);
+        this->str_addr += str_octet;
+        this->str_octets.push_back(str_octet);
 
-    octect = stoul(splitted_ip[1]);
-    if (!(0 <= octect && octect <= 255))
-        return false;
-    this->octet1 = (unsigned char)octect;
-    this->str_octets.push_back(splitted_ip[1]);
+        //We don't need dot after last octet (a.b.c.d.)
+        if (i != 3)
+            this->str_addr += ".";
+    }
 
-    octect = stoul(splitted_ip[2]);
-    if (!(0 <= octect && octect <= 255))
-        return false;
-    this->octet2 = (unsigned char)octect;
-    this->str_octets.push_back(splitted_ip[2]);
+    if (!parsed)
+    {
+        this->str_octets.clear();
+        this->str_addr = "";
+    }
 
-    octect = stoul(splitted_ip[3]);
-    if (!(0 <= octect && octect <= 255))
-        return false;
-    this->octet3 = (unsigned char)octect;
-    this->str_octets.push_back(splitted_ip[3]);
-
-    this->str_addr = str_addr;
-
-    return true;
+    return parsed;
 }
 
 bool operator == (const ip_addr& a, const ip_addr& b)
 {
-    return  a.octet0 == b.octet0 &&
-            a.octet1 == b.octet1 &&
-            a.octet2 == b.octet2 &&
-            a.octet3 == b.octet3;
+    for (size_t i = 0; i < 4; i++)
+    {
+        if (a.octets[i] != b.octets[i])
+            return false;
+    }
+
+    return true;
 }
 
 bool operator < (const ip_addr& a, const ip_addr& b)
 {
-    if (a.octet0 == b.octet0)
-    {
-        if (a.octet1 == b.octet1)
-        {
-            if (a.octet2 == b.octet2)
-                return a.octet3 < b.octet3;
-            else
-                return a.octet2 < b.octet2;
-        }
-        else
-        {
-            return a.octet1 < b.octet1;
-        }
-    }
-    else
-    {
-        return a.octet0 < b.octet0;
-    }
+    for (size_t i = 0; i < 4; i++)
+        if (a.octets[i] != b.octets[i])
+            return a.octets[i] < b.octets[i];
+
+    //a == b
+    return false;
 }
 
 bool ip_addr::match(const string& mask)
 {
     bool matched = true;
+
+    //Minimal check
+    regex mask_re("((\\d{1,3}|\\*)\\.){3}(\\d{1,3}|\\*)");
+    if (!regex_match(mask, mask_re))
+        return false;
 
     vector<string> splitted_mask = ip_pool::split(mask, '.');
 

@@ -23,9 +23,13 @@ TEST_F(TestSerialization, DateJson)
 {
     EXPECT_TRUE(version() > 0);
 
-    string test_mask = "1.*.*.4";
-
     ip_addr addr;
+
+    EXPECT_FALSE(addr.parse("1aaa.2.3.4"));
+    EXPECT_FALSE(addr.parse("1.2."));
+    EXPECT_FALSE(addr.parse("1.2.3.4."));
+
+    string test_mask = "1.*.*.4";
 
     addr.parse("1.2.3.4");
     EXPECT_TRUE(addr.match(test_mask));
