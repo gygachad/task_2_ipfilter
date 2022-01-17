@@ -66,7 +66,9 @@ vector<ip_addr> ip_pool::filter_any(const string& octet)
         {
             if (ip_octet == octet)
             {
+                //i'ts enough for our filter condition
                 filtered.push_back(ip);
+                //go to check next ip_addr
                 break;
             }
         }

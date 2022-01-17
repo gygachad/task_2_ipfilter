@@ -11,6 +11,9 @@ bool ip_addr::parse(string str_addr)
     this->str_addr = "";
 
     //Minimal check
+    //3 groups of xxx.
+    //1 group of xxx
+    //xxx - from 1 to 3 digits
     regex ip_re("(\\d{1,3}\\.){3}\\d{1,3}");
     if (!regex_match(str_addr, ip_re))
         return false;
@@ -74,6 +77,9 @@ bool ip_addr::match(const string& mask)
     bool matched = true;
 
     //Minimal check
+    //3 groups of xxx. (or *)
+    //1 group of xxx (or *)
+    //xxx - from 1 to 3 digits
     regex mask_re("((\\d{1,3}|\\*)\\.){3}(\\d{1,3}|\\*)");
     if (!regex_match(mask, mask_re))
         return false;
@@ -85,10 +91,13 @@ bool ip_addr::match(const string& mask)
 
     for(int i = 0; i < 4; i++)
     {
+        //* - means any. skip octet on this position
         if(splitted_mask[i] != "*")
         {
+            //if any of all 4 octet's not match
             if (splitted_mask[i] != this->str_octets[i])
             {
+                //break it
                 matched = false;
                 break;
             }
