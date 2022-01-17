@@ -2,12 +2,12 @@
 
 using namespace std;
 
-void ip_pool::push_back(ip_addr ip)
+void ip_pool::push_back(const ip_addr& ip)
 {
     this->ip_addr_pool.push_back(ip);
 }
 
-void ip_pool::push_back(vector<ip_addr>& ip_pool)
+void ip_pool::push_back(const vector<ip_addr>& ip_pool)
 {
     for (const auto& ip : ip_pool)
         this->push_back(ip);
