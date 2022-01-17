@@ -8,8 +8,8 @@ using namespace std;
 class ip_addr
 {
 public:
-	ip_addr() {};
-	~ip_addr() {};
+	ip_addr() = default;
+	~ip_addr() = default;
 
 	bool parse(string str_addr);
 	bool match(const string& mask);

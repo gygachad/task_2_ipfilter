@@ -16,7 +16,6 @@ int main()
         a.parse("123.412.213.231");
         a.parse("123.255.12.12");
 
-
         ip_pool filter = ip_pool();
 
         for (string line; getline(std::cin, line);)

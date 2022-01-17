@@ -7,10 +7,10 @@ void ip_pool::push_back(ip_addr ip)
     this->ip_addr_pool.push_back(ip);
 }
 
-void ip_pool::push_back(vector<ip_addr> ip_pool)
+void ip_pool::push_back(vector<ip_addr>& ip_pool)
 {
-    for (auto ip = ip_pool.begin(); ip != ip_pool.end(); ip++)
-        this->push_back(*ip);
+    for (const auto& ip : ip_pool)
+        this->push_back(ip);
 }
 
 // ("",  '.') -> [""]
@@ -47,10 +47,10 @@ vector<ip_addr> ip_pool::filter(const string& mask)
 {
     vector<ip_addr> filtered;
 
-    for (auto ip = this->ip_addr_pool.begin(); ip != this->ip_addr_pool.end(); ip++)
+    for (auto& ip : this->ip_addr_pool)
     {
-        if(ip->match(mask))
-            filtered.push_back(*ip);
+        if(ip.match(mask))
+            filtered.push_back(ip);
     }
 
     return filtered;
@@ -60,13 +60,13 @@ vector<ip_addr> ip_pool::filter_any(const string& octet)
 {
     vector<ip_addr> filtered;
 
-    for (auto ip = this->ip_addr_pool.begin(); ip != this->ip_addr_pool.end(); ip++)
+    for (const auto& ip : this->ip_addr_pool)
     {
-        for(auto ip_octet = ip->str_octets.begin(); ip_octet != ip->str_octets.end(); ip_octet++)
+        for(const auto& ip_octet : ip.str_octets)
         {
-            if (*ip_octet == octet)
+            if (ip_octet == octet)
             {
-                filtered.push_back(*ip);
+                filtered.push_back(ip);
                 break;
             }
         }
@@ -79,9 +79,9 @@ string ip_pool::to_string()
 {
     string out = "";
 
-    for (auto ip = this->ip_addr_pool.begin(); ip != this->ip_addr_pool.end(); ip++)
+    for (const auto& ip : this->ip_addr_pool)
     {
-        out += ip->str_addr;
+        out += ip.str_addr;
         out += "\n";
     }
 

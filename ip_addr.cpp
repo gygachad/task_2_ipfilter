@@ -35,8 +35,7 @@ bool ip_addr::parse(string str_addr)
         this->str_addr += str_octet;
         this->str_octets.push_back(str_octet);
 
-        //We don't need dot after last octet (a.b.c.d.)
-        if (i != 3)
+        if (i != 3)//We don't need dot after last octet (a.b.c.d.)
             this->str_addr += ".";
     }
 

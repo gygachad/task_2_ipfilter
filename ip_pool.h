@@ -15,13 +15,13 @@ string print_ip_pool(vector<vector<string>>* ip_pool);
 class ip_pool 
 {
 public:
-	ip_pool() {};
-	~ip_pool() {};
+	ip_pool() = default;
+	~ip_pool() = default;
 	
 	static vector<std::string> split(const string& str, char d);
 
 	void push_back(ip_addr ip);
-	void push_back(vector<ip_addr> ip_pool);
+	void push_back(vector<ip_addr>& ip_pool);
 	void reverse_sort();
 	vector<ip_addr> filter(const string& mask);
 	vector<ip_addr> filter_any(const string& mask);
