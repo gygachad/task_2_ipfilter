@@ -1,10 +1,11 @@
 #include <string>
-
 #include <gtest/gtest.h>
 
-#include "version.h"
 #include "gtest_ipfilter.h"
 #include "ip_pool.h"
+
+#include "version.h"
+#include "str_tool.h"
 
 using namespace std;
 
@@ -57,11 +58,11 @@ TEST_F(TestSerialization, MainTest)
 
     ip_pool pool = ip_pool();
 
-    vector<string> not_filtered = ip_pool::split(string(NOT_FILTERED), '\n');
+    vector<string> not_filtered = str_tool::split(string(NOT_FILTERED), '\n');
 
-    for(auto line = not_filtered.begin(); line != not_filtered.end(); line++)
+    for(auto& line : not_filtered)
     {
-        vector<string> v = ip_pool::split(*line, '\t');
+        vector<string> v = str_tool::split(line, '\t');
 
         ip_addr ip = ip_addr();
 

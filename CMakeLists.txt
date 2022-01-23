@@ -20,7 +20,7 @@ file(COPY ${CMAKE_BINARY_DIR}/gtest_ipfilter.h
         DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(ip_filter main.cpp)
-add_library(ip_filter_lib ip_addr.cpp ip_pool.cpp version.cpp)
+add_library(ip_filter_lib ip_addr.cpp ip_pool.cpp version.cpp str_tool.cpp)
 
 set_target_properties(ip_filter PROPERTIES
     CXX_STANDARD 14

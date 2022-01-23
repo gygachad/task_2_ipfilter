@@ -1,31 +1,43 @@
 #include <iostream>
+#include <chrono>
 
 #include "gtest_ipfilter.h"
 #include "ip_pool.h"
 #include "ip_addr.h"
 
 #include "version.h"
+#include "str_tool.h"
+
+#define WITH_CHRONO_TEST
+
+#ifdef WITH_CHRONO_TEST
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+#endif
 
 int main() 
 {
+
+#ifdef WITH_CHRONO_TEST
+    auto t1 = high_resolution_clock::now();
+#endif
+
 	//std::cout << "ip_filter version: " << version() << std::endl;
     try
     {
-        ip_addr a = ip_addr();
-        a.parse("1dwd.231.");
-        a.parse("123.412.213.231");
-        a.parse("123.255.12.12");
-
         ip_pool filter = ip_pool();
 
         for (string line; getline(std::cin, line);)
         {
-            vector<string> v = ip_pool::split(line, '\t');
+            vector<string> v = str_tool::split(line, '\t');
 
             ip_addr ip = ip_addr();
 
             if (ip.parse(v.at(0)))
                 filter.push_back(ip);
+            else
+                throw exception("Parse error");
         }
 
         // 222.173.235.246
@@ -98,6 +110,15 @@ int main()
     {
         cerr << e.what() << endl;
     }
+
+#ifdef WITH_CHRONO_TEST
+    auto t2 = high_resolution_clock::now();
+
+    /* Getting number of milliseconds as an integer. */
+    auto ms_int = duration_cast<milliseconds>(t2 - t1);
+
+    std::cout << ms_int.count() << "ms\n";
+#endif
 
     return 0;
 }

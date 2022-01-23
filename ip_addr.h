@@ -24,7 +24,7 @@ public:
 
 	//ip splitted by octets
 	unsigned char octets[4];
-	vector<string> str_octets;
+	//vector<string> str_octets;
 
 	//full string with ip
 	string str_addr;

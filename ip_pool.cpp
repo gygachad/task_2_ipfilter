@@ -13,31 +13,6 @@ void ip_pool::push_back(const vector<ip_addr>& ip_pool)
         this->push_back(ip);
 }
 
-// ("",  '.') -> [""]
-// ("11", '.') -> ["11"]
-// ("..", '.') -> ["", "", ""]
-// ("11.", '.') -> ["11", ""]
-// (".11", '.') -> ["", "11"]
-// ("11.22", '.') -> ["11", "22"]
-vector<std::string> ip_pool::split(const string& str, char d)
-{
-    vector<std::string> r;
-
-    string::size_type start = 0;
-    string::size_type stop = str.find_first_of(d);
-    while (stop != string::npos)
-    {
-        r.push_back(str.substr(start, stop - start));
-
-        start = stop + 1;
-        stop = str.find_first_of(d, start);
-    }
-
-    r.push_back(str.substr(start));
-
-    return r;
-}
-
 void ip_pool::reverse_sort()
 {
     sort(this->ip_addr_pool.begin(), this->ip_addr_pool.end(), [](ip_addr a, ip_addr b) {return a > b; });
@@ -62,9 +37,10 @@ vector<ip_addr> ip_pool::filter_any(const string& octet)
 
     for (const auto& ip : this->ip_addr_pool)
     {
-        for(const auto& ip_octet : ip.str_octets)
+        //for(const auto& ip_octet : ip.str_octets)
+        for(int i = 0; i < 4; i++)
         {
-            if (ip_octet == octet)
+            if (ip.octets[i] == stoul(octet))
             {
                 //i'ts enough for our filter condition
                 filtered.push_back(ip);
