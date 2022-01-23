@@ -8,7 +8,7 @@
 #include "version.h"
 #include "str_tool.h"
 
-#define WITH_CHRONO_TEST
+//#define WITH_CHRONO_TEST
 
 #ifdef WITH_CHRONO_TEST
 using std::chrono::high_resolution_clock;
