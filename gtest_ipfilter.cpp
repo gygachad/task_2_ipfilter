@@ -19,7 +19,7 @@ protected:
     /* none yet */
 };
 
-TEST_F(TestSerialization, DateJson)
+TEST_F(TestSerialization, MainTest)
 {
     EXPECT_TRUE(version() > 0);
 
