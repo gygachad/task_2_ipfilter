@@ -37,7 +37,7 @@ int main()
             if (ip.parse(v.at(0)))
                 filter.push_back(ip);
             else
-                throw exception("Parse error");
+                throw exception();
         }
 
         // 222.173.235.246
